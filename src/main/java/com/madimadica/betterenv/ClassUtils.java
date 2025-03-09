@@ -73,11 +73,11 @@ class ClassUtils {
         try {
             return constructor.newInstance(initargs);
         } catch (InvocationTargetException | InstantiationException | IllegalAccessException e) {
-            throw new RuntimeException("Unable to instantiate type [" + constructor.getParameterTypes()[0].getName() + "]", e);
+            throw new RuntimeException("Unable to instantiate type \"" + constructor.getParameterTypes()[0].getName() + "\"", e);
         }
     }
 
-    static <T> Object coerceType(String input, Class<T> type) {
+    public static <T> Object coerceType(String input, Class<T> type) {
         if (type.isPrimitive() && input == null) {
             throw new IllegalArgumentException("Cannot coerce null input to primitive type");
         } else if (input == null) {
@@ -91,7 +91,7 @@ class ClassUtils {
             } else if ("false".equals(lower)) {
                 return Boolean.FALSE;
             } else {
-                throw new IllegalArgumentException("Unable to coerce into a boolean. Expected 'true' or 'false' (case-insensitive)");
+                throw new IllegalArgumentException("Expected 'true' or 'false' (case-insensitive)");
             }
         } else if (type == byte.class || type == Byte.class) {
             return Byte.parseByte(input);
@@ -115,7 +115,7 @@ class ClassUtils {
         } else if (type == BigDecimal.class) {
             return new BigDecimal(input);
         } else {
-            throw new IllegalArgumentException("Cannot coerce to unsupported type [" + type.getName() + "]");
+            throw new IllegalArgumentException("Unsupported type \"" + type.getName() + "\"");
         }
     }
 
