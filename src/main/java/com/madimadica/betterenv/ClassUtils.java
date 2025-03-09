@@ -9,7 +9,7 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.Arrays;
 
-public class ClassUtils {
+class ClassUtils {
 
     private static final Class<?> JDK_RECORD_TYPE;
     public static final boolean RUNTIME_HAS_RECORDS;
