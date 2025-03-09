@@ -10,7 +10,10 @@ import java.util.*;
  * <p>
  *     Static entry point to load environment bindings to POJO types.
  * </p>
- *
+ * <p>
+ *     Also provides simple Optional return values and number parsing with
+ *     {@link BetterEnv#get(String)}, {@link BetterEnv#getInt(String)}, and {@link BetterEnv#getLong(String)}.
+ * </p>
  *
  * @see BetterEnv#load(Class)
  * @see Env
@@ -199,6 +202,55 @@ public class BetterEnv {
         }
 
         return metadata;
+    }
+
+    /**
+     * Try to find the environment variable value with the given name,
+     * returning an empty optional if it doesn't exist, or a present
+     * optional with the value.
+     * @param name name of the environment variable
+     * @return Optional String value of the environment variable
+     */
+    public static Optional<String> get(String name) {
+        return Optional.ofNullable(System.getenv(name));
+    }
+
+    /**
+     * Try to find the environment variable value with the given name,
+     * and try to call {@link Integer#parseInt(String)} on it. If the
+     * value doesn't exist or cannot be parsed, an empty optional is returned.
+     * @param name name of the environment variable
+     * @return Optional Integer value of the environment variable
+     */
+    public static Optional<Integer> getInt(String name) {
+        String value = System.getenv(name);
+        if (value == null) {
+            return Optional.empty();
+        }
+        try {
+            return Optional.of(Integer.parseInt(value));
+        } catch (NumberFormatException e) {
+            return Optional.empty();
+        }
+    }
+
+    /**
+     * Try to find the environment variable value with the given name,
+     * and try to call {@link Long#parseLong(String)} on it. If the
+     * value doesn't exist or cannot be parsed, an empty optional is returned.
+     * @param name name of the environment variable
+     * @return Optional Long value of the environment variable
+     */
+    public static Optional<Long> getLong(String name) {
+        String value = System.getenv(name);
+        if (value == null) {
+            return Optional.empty();
+        }
+        try {
+            return Optional.of(Long.parseLong(value));
+        } catch (NumberFormatException e) {
+            return Optional.empty();
+        }
     }
 
 }

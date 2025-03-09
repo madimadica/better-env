@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -36,8 +37,6 @@ class BetterEnvTest {
 
     @Test
     void load_stringsAndMath() {
-        // run configuration env:
-        // reference_String=foo;reference_BigInteger=123;reference_BigDecimal=0.123
         PojoStringsAndMath pojo = BetterEnv.load(PojoStringsAndMath.class);
         assertEquals("foo", pojo.getReferenceString());
         assertEquals(new BigInteger("123"), pojo.getReferenceBigInteger());
@@ -112,6 +111,30 @@ class BetterEnvTest {
         PojoAnnotationsAllArgsFinal pojo = BetterEnv.load(PojoAnnotationsAllArgsFinal.class);
         assertEquals("foo", pojo.getS());
         assertEquals("bar", pojo.getBar());
+    }
+
+    @Test
+    void get() {
+        assertFalse(BetterEnv.get("ref_na").isPresent());
+        Optional<String> s = BetterEnv.get("reference_String");
+        assertTrue(s.isPresent());
+        assertEquals("foo", s.get());
+    }
+
+    @Test
+    void getInt() {
+        assertFalse(BetterEnv.get("primitive_integer").isPresent());
+        Optional<Integer> x = BetterEnv.getInt("primitive_int");
+        assertTrue(x.isPresent());
+        assertEquals(3, x.get());
+    }
+
+    @Test
+    void getLong() {
+        assertFalse(BetterEnv.get("primitive_integer").isPresent());
+        Optional<Long> x = BetterEnv.getLong("primitive_int");
+        assertTrue(x.isPresent());
+        assertEquals(3L, x.get());
     }
 }
 
