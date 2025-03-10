@@ -36,16 +36,19 @@ import java.lang.annotation.Target;
 public @interface Env {
     /**
      * The key, or array of keys, to find the environment variable
+     * @return the environment variable names to scan
      */
     String[] value();
 
     /**
      * If the value can be missing/null. Defaults to {@code true}
+     * @return if this is a required (non-null) field
      */
     boolean required() default true;
 
     /**
      * If the value can be a blank String. Defaults to {@code false}.
+     * @return if this allows blank Strings as valid values
      */
     boolean allowBlank() default false;
 
@@ -57,6 +60,7 @@ public @interface Env {
     @interface Fallback {
         /**
          * Hardcoded fallback value to use when no valid variables were found in {@link Env}
+         * @return hardcoded value to default to if nothing else is valid
          */
         String value();
     }
